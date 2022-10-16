@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const fs = require('fs');
 const path = require('path');
 const app = express();
@@ -42,6 +42,17 @@ app.post('/api/notes', function (req, res) {
 
     });
 
+})
+
+app.delete('/api/notes/:id', function (req, res) {
+    fs.readFile(__dirname + '/db/db.json', (err, res) => {
+        let savedNote = JSON.parse(fs.readFile(__dirname + '/db/db.json'));
+        const Delete = savedNote.filter((element) => element.id !== id);
+        savedNote.splice(Delete, 1);
+        fs.writeFileSync(__dirname + '/db/db.json', JSON.stringify(savedNote), (err, res) => {
+            res.json(savedNote);
+        });
+    })
 })
 
 app.get('/*', (req, res) =>
