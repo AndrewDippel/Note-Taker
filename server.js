@@ -45,12 +45,11 @@ app.post('/api/notes', function (req, res) {
 })
 
 app.delete('/api/notes/:id', function (req, res) {
-    fs.readFile(__dirname + '/db/db.json', (err, res) => {
-        let savedNote = JSON.parse(fs.readFile(__dirname + '/db/db.json'));
-        const Delete = savedNote.filter((element) => element.id !== id);
-        savedNote.splice(Delete, 1);
-        fs.writeFileSync(__dirname + '/db/db.json', JSON.stringify(savedNote), (err, res) => {
-            res.json(savedNote);
+    fs.readFile(__dirname + '/db/db.json', (err, del) => {
+        let savedNote = JSON.parse(del);
+        const Delete = savedNote.filter((element) => element.id != req.params.id);
+        fs.writeFile(__dirname + '/db/db.json', JSON.stringify(Delete), (err, del) => {
+            res.json(Delete);
         });
     })
 })
